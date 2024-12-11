@@ -1,10 +1,25 @@
 import readlinesync = require('readline-sync')
-import { colors } from './src/util/Colors'
+import { colors } from './src/util/Colors';
+import { Conta } from './src/model/Contas';
+
 
 
 export function menu() {
  
 let opcao: number; 
+
+// Cria Novas Instâncias (objetos) da classe conta
+const c1 = new Conta(1, 123, 1, "Jonas",10000);
+c1.visualizar();
+//saque
+console.log(c1.sacar(100.00));
+c1.visualizar();
+
+const c2 = new Conta(2, 123, 2, "Joana",20000);
+c2.visualizar();
+// deposito
+(c2.depositar(100.00));
+c2.visualizar();
 
 
 
