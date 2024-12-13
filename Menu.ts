@@ -1,6 +1,8 @@
 import readlinesync = require('readline-sync')
 import { colors } from './src/util/Colors';
 import { Conta } from './src/model/Contas';
+import { ContaCorrente } from './src/model/ContaCorrente';
+import { ContaPoupanca } from './src/model/ContaPoupanca';
 
 
 
@@ -8,19 +10,28 @@ export function menu() {
  
 let opcao: number; 
 
-// Cria Novas Instâncias (objetos) da classe conta
-const c1 = new Conta(1, 123, 1, "Jonas",10000);
-c1.visualizar();
-//saque
-console.log(c1.sacar(100.00));
-c1.visualizar();
+const conta: Conta = new Conta(1, 123, 1, "Adriana", 10000);
+    conta.visualizar();
+    conta.sacar(10500);
+    conta.visualizar();
+    conta.depositar(5000);
+    conta.visualizar();
 
-const c2 = new Conta(2, 123, 2, "Joana",20000);
-c2.visualizar();
-// deposito
-(c2.depositar(100.00));
-c2.visualizar();
+   // Objeto da Classe ContaCorrente (Teste)
+    const contacorrente: ContaCorrente = new ContaCorrente(2, 123, 1, "Mariana", 15000, 1000);
+    contacorrente.visualizar();
+    contacorrente.sacar(2000);
+    contacorrente.visualizar();
+    contacorrente.depositar(1000);
+    contacorrente.visualizar();
 
+    // Objeto da Classe ContaPoupanca (teste)
+    const contapoupanca: ContaPoupanca = new ContaPoupanca(3, 123, 2, "Victor", 1000, 10);
+    contapoupanca.visualizar();
+    contapoupanca.sacar(200);
+    contapoupanca.visualizar();
+    contapoupanca.depositar(1000);
+    contapoupanca.visualizar();
 
 
 while(true){
@@ -108,6 +119,12 @@ export function fiz(): void {
     console.log("Projeto Desenvolvido por Loana              ");
     console.log("Generation Brasil                           ");
     console.log("******************************************  ", colors.reset);
+}
+
+function keyPress(): void {
+    console.log(colors.reset, "");
+    console.log("\nPressione enter para continuar...");
+    readlinesync.prompt();
 }
 
 menu()
