@@ -9,7 +9,7 @@ import { ContaController } from './src/Controller/ContaController';
 
 export function menu() {
  
-   let opcao, numero, agencia, tipo, saldo, limite, aniversario: number; 
+   let opcao, numero, agencia, tipo, saldo, limite, aniversario, numeroDestino, valor: number; 
    let titular: string;
    const tiposContas = ['Conta Corrente', 'Conta Poupança'];
 
@@ -40,10 +40,11 @@ while(true){
     console.log("     6 - Sacar                             ");
     console.log("     7 - Depositar                         ");
     console.log("     8 - Transferir Valores entre Contas   ");
-    console.log("     9 - Sair                              ");
+    console.log("     9 - Buscar Conta por Titular          ");
+    console.log("     0 - Sair                              ");
     console.log("                                           ");
     console.log("******************************************" );
-    console.log("\nDigite a Opção Desejada:  ",              );
+    console.log("\nDigite a Opção Desejada:  ", colors.reset );
 
     opcao = readlinesync.questionInt("");
 
@@ -53,16 +54,16 @@ while(true){
     case 1:
         console.log("\n\nCriar Conta\n\n");
 
-        console.log("Digite o Número da Agência:")
+        console.log("Digite o Número da Agência: ");
         agencia = readlinesync.questionInt("");
 
-        console.log("Digite o Nome do Titular:")
+        console.log("Digite o Nome do Titular: ");
         titular = readlinesync.question("");
 
-        console.log("Digite o Tipo da Conta:")
+        console.log("Digite o Tipo da Conta: ");
         tipo = readlinesync.keyInSelect(tiposContas ,"", {cancel:false}) + 1;
 
-        console.log("Digite o Saldo da Conta:")
+        console.log("Digite o Saldo da Conta: ");
         saldo = readlinesync.questionFloat("");
 
 
@@ -70,15 +71,15 @@ while(true){
         switch(tipo){
 
             case 1: 
-          console.log("Digite o Limite da Conta:")
+          console.log("Digite o Limite da Conta:");
           limite= readlinesync.questionInt("");
-          contas.cadastrar(new ContaCorrente(contas.gerarNumero(),  agencia, tipo, titular, saldo, limite ))
+          contas.cadastrar(new ContaCorrente(contas.gerarNumero(),  agencia, tipo, titular, saldo, limite ));
             break;
 
             case 2:  
-            console.log("Digite o Dia do Aniversário da Poupança:")
+            console.log("Digite o Dia do Aniversário da Poupança:");
             aniversario = readlinesync.questionInt("");
-            contas.cadastrar(new ContaPoupanca(contas.gerarNumero(),  agencia, tipo, titular, saldo, aniversario ))
+            contas.cadastrar(new ContaPoupanca(contas.gerarNumero(),  agencia, tipo, titular, saldo, aniversario ));
             break
         }
         keyPress;
@@ -93,7 +94,7 @@ while(true){
     case 3: 
         console.log("\n\nConsultar dados da Conta - por número\n\n");
 
-        console.log("Digite o numero da conta: ")
+        console.log("Digite o numero da conta: ");
         numero = readlinesync.questionInt(""); 
         contas.procurarPorNumero(numero);
         keyPress;
@@ -109,13 +110,13 @@ while(true){
 
         if(conta !== null){
 
-        console.log("Digite o Número da Agência:")
+        console.log("Digite o Número da Agência:");
         agencia = readlinesync.questionInt("");
 
-        console.log("Digite o Nome do Titular:")
+        console.log("Digite o Nome do Titular:");
         titular = readlinesync.question("");
 
-        console.log("Digite o Saldo da Conta:")
+        console.log("Digite o Saldo da Conta:");
         saldo = readlinesync.questionFloat("");
 
         tipo = conta.tipo;
@@ -123,20 +124,20 @@ while(true){
         switch(tipo){
 
             case 1: 
-          console.log("Digite o Limite da Conta:")
+          console.log("Digite o Limite da Conta: ");
           limite= readlinesync.questionInt("");
           contas.atualizar(new ContaCorrente(numero,  agencia, tipo, titular, saldo, limite ))
             break;
 
             case 2:  
-            console.log("Digite o Dia do Aniversário da Poupança:")
+            console.log("Digite o Dia do Aniversário da Poupança: ");
             aniversario = readlinesync.questionInt("");
             contas.atualizar(new ContaPoupanca(numero,  agencia, tipo, titular, saldo, aniversario ))
             break;
         }
 
         } else{
-            console.log("Conta não encontrada!")
+            console.log("Conta não encontrada!");
         }
         keyPress;
         break;
@@ -153,22 +154,57 @@ while(true){
 
     case 6: 
         console.log("\n\nSaque\n\n");
+
+        console.log("Digite o Numero da Conta: ")
+        numero = readlinesync.questionInt(" ");
+
+
+       console.log("Digite o valor do Saque: ");
+       valor = readlinesync.questionFloat(" ");
+
+        
+        contas.sacar(numero, valor);
+
         keyPress;
         break;
 
     case 7: 
         console.log("\n\nDepósito\n\n");
+
+        
+        console.log("Digite o Numero da Conta:")
+        numero = readlinesync.questionInt(" ");
+
+
+       console.log("Digite o valor do Depósito: ");
+       valor = readlinesync.questionFloat(" ");
+
+        
+        contas.depositar(numero, valor);
+
+
         keyPress;
         break;
 
     case 8: 
         console.log("\n\nTransferência entre Contas\n\n");
+
+        console.log("Digite o número da Conta Origem: ");
+        numero = readlinesync.questionInt(" ");
+
+        console.log("Digite o número da Conta Destino: ")
+        numeroDestino = readlinesync.questionInt("");
+
+        console.log("Digite o valor da transferência: ");
+        valor = readlinesync.questionFloat("");
+
+        contas.transferir(numero, numeroDestino, valor);
         keyPress;
         break;
 
-     case 9: 
+     case 0: 
       
-     if(opcao == 9){
+     if(opcao == 0){
         console.log(colors.fg.red," **********       Saindo do Menu         ************");
         console.log("\nObrigada por Escolher o SantoAndre - O Banco que esconde seu Dinheiro!\n", colors.reset);
         fiz();
@@ -176,6 +212,15 @@ while(true){
         keyPress;
     }
      
+    case 9: 
+        console.log("\nConsulta pelo Titular \n");
+        console.log("\nDigite o Nome do Titular: ");
+        titular = readlinesync.question("")   
+
+        contas.procurarPorTitular(titular);
+    
+
+    break;
 
     default: 
         console.log("Opção Invalida!!");
